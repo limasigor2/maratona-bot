@@ -1,0 +1,23 @@
+{
+  "name": "maratona-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "author": "Igor Lima",
+  "license": "ISC",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "dependencies": {
+    "botbuilder": "^3.13.1",
+    "restify": "^6.3.4"
+  }
+}
