@@ -1,5 +1,6 @@
 var restify = require('restify');
 var builder = require('botbuilder');
+var cognitiveservices = require('botbuilder-cognitiveservices');
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -13,16 +14,23 @@ var connector = new builder.ChatConnector({
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 
+var bot = new builder.UniversalBot(connector);
+// Register in-memory state storage
+bot.set('storage', new builder.MemoryBotStorage());         
 // Endpoint que irá monitorar as mensagens do usuário
 server.post('/api/messages', connector.listen());
 
-// Recebe as mensagens do usuário e responde repetindo cada mensagem (prefixado com 'Você disse:')
-var bot = new builder.UniversalBot(connector, function (session) {
-    session.send("Você disse: %s", session.message.text);
-});
+var recognizer = new cognitiveservices.QnAMakerRecognizer({
+    knowledgeBaseId: 'Seu knowledge base id - código na rota do POST',
+    subscriptionKey: 'sua subscription key - código no Ocp-Apim-Subscription-Key',
+    top: 3});
 
+var qnaMakerTools = new cognitiveservices.QnAMakerTools();
+bot.library(qnaMakerTools.createLibrary());
 
-var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector, function (session) {
-    session.send("Você disse: %s", session.message.text);
+var basicQnAMakerDialog = new cognitiveservices.QnAMakerDialog({
+	recognizers: [recognizer],
+	defaultMessage: 'No match! Try changing the query terms!',
+	qnaThreshold: 0.3
 });
+bot.dialog('/', basicQnAMakerDialog);

@@ -18,6 +18,7 @@
   "homepage": "",
   "dependencies": {
     "botbuilder": "^3.13.1",
+    "botbuilder-cognitiveservices": "^1.1.0",
     "restify": "^6.3.4"
   }
 }
