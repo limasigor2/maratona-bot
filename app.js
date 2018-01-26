@@ -10,8 +10,8 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 
 // Crie um chat conector para se comunicar com o Bot Framework Service
 var connector = new builder.ChatConnector({
-    appId: process.env.MICROSOFT_APP_ID,
-    appPassword: process.env.MICROSOFT_APP_PASSWORD
+    appId: '',
+    appPassword: ''
 });
 
 var bot = new builder.UniversalBot(connector);
@@ -22,7 +22,7 @@ server.post('/api/messages', connector.listen());
 
 var recognizer = new cognitiveservices.QnAMakerRecognizer({
     knowledgeBaseId: 'Seu knowledge base id - código na rota do POST',
-    subscriptionKey: 'sua subscription key - código no Ocp-Apim-Subscription-Key',
+    subscriptionKey: 'Sua subscription key - código no Ocp-Apim-Subscription-Key',
     top: 3});
 
 var qnaMakerTools = new cognitiveservices.QnAMakerTools();
@@ -30,7 +30,43 @@ bot.library(qnaMakerTools.createLibrary());
 
 var basicQnAMakerDialog = new cognitiveservices.QnAMakerDialog({
 	recognizers: [recognizer],
-	defaultMessage: 'No match! Try changing the query terms!',
-	qnaThreshold: 0.3
-});
+	defaultMessage: 'Não consegui entender, tente reformular sua pergunta XD!',
+    qnaThreshold: 0.5,
+    feedbackLib: qnaMakerTools
+ });
+basicQnAMakerDialog.respondFromQnAMakerResult = function(session, qnaMakerResult){
+    // salva a pergunta
+    var question = session.message.text;
+    session.conversationData.userQuestion = question;
+    
+
+    var isCardFormat = qnaMakerResult.answers[0].answer.includes(";");
+
+    if(!isCardFormat){
+        session.send(qnaMakerResult.answers[0].answer);
+    }else if(qnaMakerResult.answers && qnaMakerResult.score >= 0.5){
+        var qnaAnswer = qnaMakerResult.answers[0].answer;
+        
+        var qnaAnswerData = qnaAnswer.split(';');
+        var title = qnaAnswerData[0];
+        var description = qnaAnswerData[1];
+        var url = qnaAnswerData[2];
+        var imageURL = qnaAnswerData[3];
+
+        var msg = new builder.Message(session)
+        
+        msg.attachments([
+            new builder.HeroCard(session)
+            .title(title)
+            .subtitle(description)
+            .images([builder.CardImage.create(session, imageURL)])
+            .buttons([
+                builder.CardAction.openUrl(session, url, "Learn More")
+            ])
+        ]);
+}
+session.send(msg).endDialog();
+
+
+}
 bot.dialog('/', basicQnAMakerDialog);
