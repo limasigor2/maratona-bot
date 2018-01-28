@@ -17,12 +17,10 @@ Códigos desenvolvidos durante a [maratona bot](https://ticapacitacion.com/curso
 
 ### Como rodar um projeto específico
 
-<ul>
-    <li>Entre em uma pasta específica usando o seguinte comando: `$ cd modulo\ X/', onde X é o módulo que deseja acessar.</li>
-    <li>Execute o seguinte comando: `$ node app.js`</li>
-    <li>Execute o Bot Framework Emulator</li>
-    <li>Informe o seguinte EndPoint é este: `http://localhost:3978/api/messages` e clique em `CONNECT`</li>
-</ul>
+1. Entre em uma pasta específica usando o seguinte comando: `$ cd modulo\ X/', onde X é o módulo que deseja acessar.
+2. Execute o seguinte comando: `$ node app.js`
+3. Execute o Bot Framework Emulator</li>
+4. Informe o seguinte EndPoint é este: `http://localhost:3978/api/messages` e clique em `CONNECT`
 
 #### Observação
 Não pare o programa Node.js utilizando `ctrl + z` e sim `ctrl + c`
