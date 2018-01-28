@@ -1,23 +1,18 @@
-# maratona-bots
+Maratona Bots
 ==============
 
-<p>Códigos desenvolvidos durante a [maratona bot](https://ticapacitacion.com/curso/botspt/) em Node.js usando as ferramentas da Microsoft:
-    - [Bot Framework Emulator](https://docs.microsoft.com/en-us/bot-framework/bot-service-debug-emulator)
-    - [Microsoft Bot Builder](https://github.com/Microsoft/BotBuilder)
-    - [BotBuilder CognitiveServices](https://github.com/Microsoft/BotBuilder-CognitiveServices/)
-    - [QnA Maker](https://qnamaker.ai/)
-</p>
+Códigos desenvolvidos durante a [maratona bot](https://ticapacitacion.com/curso/botspt/) em Node.js usando as ferramentas da Microsoft:
+1. [Bot Framework Emulator](https://docs.microsoft.com/en-us/bot-framework/bot-service-debug-emulator)
+2. [Microsoft Bot Builder](https://github.com/Microsoft/BotBuilder)
+3. [BotBuilder CognitiveServices](https://github.com/Microsoft/BotBuilder-CognitiveServices/)
+4. [QnA Maker](https://qnamaker.ai/)
 
 ### Instalação
-
-<ul>
-  <li>Clone este projeto: `$ git clone https://github.com/igorslima/maratona-bot`</li>
-  <li>Instale as seguintes depências do projeto:
+1. Clone este projeto: `$ git clone https://github.com/igorslima/maratona-bot`
+2. Instale as seguintes depências do projeto:
     - `$ npm install --save restify`
     - `$ npm install --save botbuilder`
     - `$ npm install --save botbuilder-cognitiveservices`
-  </li>
-  <li>Item 3</li>
 </ul>
 
 ### Como rodar um projeto específico
@@ -33,6 +28,6 @@
 Não pare o programa Node.js utilizando `ctrl + z` e sim `ctrl + c`
 
 ### Autor
-- Igor Lima 
+- Igor Lima
     - [Twitter](https://twitter.com/limasigor2)
     - [LinkedIn](https://www.linkedin.com/in/igorlimas)
