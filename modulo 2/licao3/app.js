@@ -64,9 +64,7 @@ basicQnAMakerDialog.respondFromQnAMakerResult = function(session, qnaMakerResult
                 builder.CardAction.openUrl(session, url, "Learn More")
             ])
         ]);
-}
-session.send(msg).endDialog();
-
-
+    }
+    session.send(msg).endDialog();
 }
 bot.dialog('/', basicQnAMakerDialog);
