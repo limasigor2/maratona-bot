@@ -1,5 +1,6 @@
 var restify = require('restify');
 var builder = require('botbuilder');
+var create = require('./create');
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -13,59 +14,25 @@ var connector = new builder.ChatConnector({
     appPassword: process.env.MicrosoftAppPassword
 });
 
-// Listen for messages from users 
-server.post('/api/messages', connector.listen());
-
-// Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 
 var inMemoryStorage = new builder.MemoryBotStorage();
 
 var bot = new builder.UniversalBot(connector, [
     function(session){
-        session.send("Welcome to Dinner Reservation");
-        session.beginDialog('askForDateTime');
+        console.log(session.message.text);
+        builder.Prompts.choice(session, 'What card would like to test?', create.CardNames, {
+            maxRetries: 3,
+            retryPrompt: 'Ooops, what you wrote is not a valid option, please try again'
+        });
     },
     function(session, results){
-        session.dialogData.reservationDate = builder.EntityRecognizer.resolveTime([results.response]);
-        session.beginDialog('askForPartySize');
-    },
-    function(session, results){
-        session.dialogData.partySize = results.response;
-        session.beginDialog('askForReserverName');
-    },
-    function(session, results){
-        session.dialogData.reservationName = results.response;
+        var selectedCardName = results.response.entity;
+        var card = create.Card(selectedCardName, session);
 
-        // Process request and display reservation details
-        session.send(`Reservation confirmed. Reservation details: <br/>Date/Time: ${session.dialogData.reservationDate} <br/>Party size: ${session.dialogData.partySize} <br/>Reservation name: ${session.dialogData.reservationName}`);
-        session.endDialog();
+        // attach the card to the reply message
+        var msg = new builder.Message(session).addAttachment(card);
+        session.send(msg);
     }
-]).set('storage', inMemoryStorage);
+])
+server.post('/api/messages', connector.listen());
 
-
-bot.dialog('askForDateTime', [
-    function(session){
-        builder.Prompts.time(session, "Por favor, informe a data e a hora da reserva");
-    },
-    function(session, results){
-        session.endDialogWithResult(results);
-    }
-]);
-
-bot.dialog('askForPartySize',[
-    function(session){
-        builder.Prompts.text(session, "Quantas pessoas na sua festa?")
-    },
-    function(session, results){
-        session.endDialogWithResult(results);
-    }
-]);
-
-bot.dialog('askForReserverName', [
-    function(session){
-        builder.Prompts.text(session, "Qual o nome do reservante?")
-    },
-    function(session, results){
-        session.endDialogWithResult(results);
-    }
-]);
