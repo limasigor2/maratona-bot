@@ -22,16 +22,16 @@ var inMemoryStorage = new builder.MemoryBotStorage();
 
 var bot = new builder.UniversalBot(connector, [
     function(session){
-        session.send("Welcome to the dinner reservation!");
-        builder.Prompts.time(session, "Please provide a reservation date and time (e.g.: June 6th at 5pm)");
+        session.send("Welcome to Dinner Reservation");
+        session.beginDialog('askForDateTime');
     },
     function(session, results){
         session.dialogData.reservationDate = builder.EntityRecognizer.resolveTime([results.response]);
-        builder.Prompts.number(session, "How many people are in your party?");
+        session.beginDialog('askForPartySize');
     },
     function(session, results){
         session.dialogData.partySize = results.response;
-        builder.Prompts.text(session, "Whose name will the reservation be under?");
+        session.beginDialog('askForReserverName');
     },
     function(session, results){
         session.dialogData.reservationName = results.response;
@@ -41,3 +41,31 @@ var bot = new builder.UniversalBot(connector, [
         session.endDialog();
     }
 ]).set('storage', inMemoryStorage);
+
+
+bot.dialog('askForDateTime', [
+    function(session){
+        builder.Prompts.time(session, "Por favor, informe a data e a hora da reserva");
+    },
+    function(session, results){
+        session.endDialogWithResult(results);
+    }
+]);
+
+bot.dialog('askForPartySize',[
+    function(session){
+        builder.Prompts.text(session, "Quantas pessoas na sua festa?")
+    },
+    function(session, results){
+        session.endDialogWithResult(results);
+    }
+]);
+
+bot.dialog('askForReserverName', [
+    function(session){
+        builder.Prompts.text(session, "Qual o nome do reservante?")
+    },
+    function(session, results){
+        session.endDialogWithResult(results);
+    }
+]);
