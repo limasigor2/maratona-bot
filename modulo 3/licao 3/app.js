@@ -24,18 +24,18 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
     session.send('Olá! Eu sou um bot que faz cotação de moedas');
 })
 .matches('Cumprimento', (session) => {
-    session.send('Olá, em que posso ajudar?', session.message.text);
+    session.send('Olá, em que posso ajudar?');
 })
 .matches('Cotação', (session,args, next) => {
     var moedas = builder.EntityRecognizer.findAllEntities(args.entities, 'moeda');
     var message = moedas.map(m => m.entity).join(', ');
-    session.send(`Eu farei uma cotação para as moedas **${message}**`);
+    session.send('Eu faço cotacões para  **${message}**');
 })
 .matches('None', (session) => {
-    session.send('You reached None    intent, you said \'%s\'.', session.message.text);
+    session.send('Desculpe, eu não entendi o que você disse');
 })
 .onDefault((session) => {
-    session.send('Sorry, I did not understand \'%s\'.', session.message.text);
+    session.send('Eu não entendi o que você disse, desculpe');
 });
 
 bot.dialog('/', intents);  
