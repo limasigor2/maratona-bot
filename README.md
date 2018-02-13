@@ -13,6 +13,7 @@ Códigos desenvolvidos durante a [maratona bot](https://ticapacitacion.com/curso
     - `$ npm install --save restify`
     - `$ npm install --save botbuilder`
     - `$ npm install --save botbuilder-cognitiveservices`
+    - `$ npm install --save request`
 
 ### Como rodar um projeto específico
 
