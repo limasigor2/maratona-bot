@@ -29,7 +29,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 .matches('Cotação', (session, args, next) => {
     var moedas = builder.EntityRecognizer.findAllEntities(args.entities, 'moeda');
     var message = moedas.map(m => m.entity).join(', ');
-    session.send('Eu faço cotacões para  **${message}**');
+    session.send('Eu faço cotacões para  **' + message + "**");
 })
 .matches('None', (session) => {
     session.send('Desculpe, eu não entendi o que você disse');

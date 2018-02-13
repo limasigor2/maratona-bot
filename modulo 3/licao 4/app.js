@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+var request = require('request');
 var restify = require('restify');
 var builder = require('botbuilder');
 
@@ -30,11 +31,23 @@ intents.matches('Cumprimento', (session) => {
     session.send("Olá em que posso ajudar?");
 });
 
+
 intents.matches('Cotação', (session, args, next) => {
-    var moedas = builder.EntityRecognizer.findAllEntities(args.entities, 'moeda');
-    var message = moedas.map(m => m.entity).join(', ');
-    session.send('Eu faço cotacões para  **${message}**');
+    var moedas = builder.EntityRecognizer.findAllEntities(args.entities, 'moeda').map(m => m.entity).join(',');
+    var endpoint = process.env.ENDPOINT + '' + moedas;
+    console.log("moedas: ", moedas);
+    //console.log('endPoint', endpoint);
+    session.send('Aguarde um momento enquanto eu consulto a cotação das moedas.');
+    request(endpoint, (error, response, body) => {
+        if(error || !body){
+            return session.send('Ocorreu algum erro, tente novamente mais tarde.');
+        }
+        var cotacoes = JSON.parse(body);
+        session.send(cotacoes.map(m => `${m.nome}: ${m.valor}` ).join(', '))
+    });
 });
+
+
 
 intents.matches('None', (session) => {
     session.send('Desculpe, eu não entendi o que você disse');
