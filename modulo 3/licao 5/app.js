@@ -25,12 +25,17 @@ const myDialogName = 'getFields';
 formflowbotbuilder.executeFormFlow('questions.json', bot, myDialogName, (err, responses) => {
     if (err)
         return console.log(err);
-    bot.dialog('/', [function (session) {
+    bot.dialog('/', [
+        (session) => {
         session.beginDialog(myDialogName);
-      },
-        function (session, results) {
-              // responses from the user are in results variable as well as in the responses callback argument
-          session.send('results: ' + JSON.stringify(responses));
+        },
+        (session, results) => {
+            const questao = "Está correto?\n"
+                            + `* Nome: ${responses.firstname} \n`
+                            + `* Lingua: ${responses.lingua}*\n`
+                            + `* Email: ${responses.email}* \n`
+                            + `* url: ${responses.url}`;
+            session.send(questao);
         }]);
     
   });

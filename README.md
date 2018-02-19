@@ -14,6 +14,7 @@ Códigos desenvolvidos durante a [maratona bot](https://ticapacitacion.com/curso
     - `$ npm install --save botbuilder`
     - `$ npm install --save botbuilder-cognitiveservices`
     - `$ npm install --save request`
+    - `$ npm install --save formflowbotbuilder`
 
 ### Como rodar um projeto específico
 

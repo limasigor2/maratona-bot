@@ -1,31 +1,31 @@
 [
     {
         "id": "firstname",
-        "prompt": "please enter a name",
-        "response": "Your name is %s",
-        "errorPrompt": "please enter a string of > 0 characters",
+        "prompt": "Digite seu nome",
+        "response": "Seu nome é %s",
+        "errorPrompt": "Por favor insira um nome com mais de um aluno",
         "type": "text"
     },
     {
-        "id": "language",
-        "prompt": "please select a language",
-        "response": "Your favorite programming language is %s",
-        "errorPrompt": "please select one of the choices",
+        "id": "lingua",
+        "prompt": "Selecione uma linguagem",
+        "response": "Sua linguagem de programação é: %s",
+        "errorPrompt": "Por favor selecione uma das opções",
         "type": "choice",
-        "choices": "JavaScript|TypeScript|CoffeeScript"
+        "choices": "JavaScript|Java|Python"
     },
     {
         "id": "email",
-        "prompt": "please enter an email",
+        "prompt": "digite um email",
         "response": "Your email is %s",
-        "errorPrompt": "please enter a valid email",
+        "errorPrompt": "por favor digite um e-mail um válido email",
         "type": "email"
     },
     {
         "id": "url",
-        "prompt": "please enter a website (starting with http:// or https://)",
-        "response": "Your url is %s",
-        "errorPrompt": "please enter a valid website",
+        "prompt": "Por favor digite um site válido (starting with http:// or https://)",
+        "response": "Sua url é %s",
+        "errorPrompt": "Por favor digite um site válido",
         "type": "url"
     }
 ]
