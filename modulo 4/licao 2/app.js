@@ -1,8 +1,10 @@
 require('dotenv').config();
 
-const moment = require('moment')
-var restify = require('restify');
-var builder = require('botbuilder');
+var utils = require("../util/util.js");
+const restify = require('restify');
+const builder = require('botbuilder');
+
+
 
 const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, () => {
@@ -18,16 +20,6 @@ const bot = new builder.UniversalBot(connector);
 bot.set('storage', new builder.MemoryBotStorage());         
 server.post('/api/messages', connector.listen());
 
-function saudacao(){
-    const split_afternoon = 12;
-    const split_evening = 17;
-    const hora_atual = parseFloat(moment().utc().format('HH'));
-    if(hora_atual < split_afternoon)
-        return "Bom dia";
-    if(hora_atual > split_evening)
-        return "Boa noite";
-    return "boa tarde";
-}
 
 // LUIS AI
 
@@ -41,7 +33,7 @@ intents.matches('None', (session, args, next) => {
 });
 
 intents.matches('saudar', (session, args, next) => {
-    session.send(`${saudacao()}! Em que posso ajudar?`)
+    session.send(`${utils.saudacao()}! Em que posso ajudar?`)
 });
 
 intents.onDefault((session, args) => {
